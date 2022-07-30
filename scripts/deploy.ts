@@ -1,18 +1,12 @@
-import { ethers } from "hardhat";
+import { ethers, upgrades } from "hardhat";
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const ScenebluePoetry = await ethers.getContractFactory("ScenebluePoetry");
+  const poetry = await upgrades.deployProxy(ScenebluePoetry, ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'])
 
-  const lockedAmount = ethers.utils.parseEther("1");
+  await poetry.deployed();
 
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log("Lock with 1 ETH deployed to:", lock.address);
+  console.log("Sceneblue poetry contract deployed to:", poetry.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
