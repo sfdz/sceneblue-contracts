@@ -1,8 +1,11 @@
 import { ethers, upgrades } from "hardhat";
 
 async function main() {
-  const ScenebluePoetry = await ethers.getContractFactory("ScenebluePoetry");
-  const poetry = await upgrades.deployProxy(ScenebluePoetry, ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'])
+  const signers = await ethers.getSigners();
+  const admin = signers[0]; // 0xfd13953436CDbEb4232eF6FC4b7f069C7c70B1FA
+  const ScenebluePoetry = await ethers.getContractFactory("ScenebluePoetry", admin);
+  // Let the admin also be the mint authority
+  const poetry = await upgrades.deployProxy(ScenebluePoetry, [admin.address])
 
   await poetry.deployed();
 

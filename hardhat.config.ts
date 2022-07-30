@@ -1,4 +1,4 @@
-import { infuraAPIKey, mnemonic } from "./secrets.json";
+import { infuraAPIKey, etherscanAPIKey, mnemonic } from "./secrets.json";
 
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
@@ -11,6 +11,11 @@ const config: HardhatUserConfig = {
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${infuraAPIKey}`,
       accounts: { mnemonic }
+    }
+  },
+  etherscan: {
+    apiKey: {
+      rinkeby: etherscanAPIKey
     }
   }
 };
